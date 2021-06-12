@@ -1,5 +1,7 @@
 <template>
   <div id="app">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300&display=swap" rel="stylesheet">
     <calendar/>
   </div>
 </template>
@@ -23,5 +25,8 @@ export default {
   width: 100%;
   margin: 0;
   padding: 0;
+  font-family: 'Ubuntu', sans-serif;
 }
+
+
 </style>

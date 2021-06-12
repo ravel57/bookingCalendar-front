@@ -1,4 +1,4 @@
-# bron
+# bookingCalendar-front
 
 ## Project setup
 ```
