@@ -1,8 +1,9 @@
 <template>
   <tr>
-    <td>
+    <td v-if="dataNow.getHours() > 8 & dataNow.getHours() < 20">
       <div class="time-line" :style="{left: getDateNow}"/>
     </td>
+    <td v-else/>
     <td
         class="hour"
         v-for="(item, i) in hours"
@@ -14,7 +15,6 @@
 </template>
 
 <script>
-
 export default {
 
   name: "timeLine",
@@ -29,15 +29,12 @@ export default {
 
   methods: {
     calcDateLine() {
-      // console.log(this.dataNow)
-      this.dateTimeLine = (((this.dataNow.getHours() - 7) * 60.35 + this.dataNow.getMinutes()) / 60 * 100) + '%'
-      console.log(this.dateTimeLine)
+      this.dateTimeLine = (((this.dataNow.getHours() - 7) * 60.7 + this.dataNow.getMinutes()) / 60 * 100) + '%'
       this.dataNow = new Date()
       setInterval(() => {
-        // console.log(this.dataNow)
-        console.log(this.dateTimeLine)
-        this.dateTimeLine = (((this.dataNow.getHours() - 7) * 60.35 + this.dataNow.getMinutes()) / 60 * 100) + '%'
+        this.dateTimeLine = (((this.dataNow.getHours() - 7) * 60.7 + this.dataNow.getMinutes()) / 60 * 100) + '%'
         this.dataNow = new Date()
+
       }, 60000)
     }
   },
@@ -66,12 +63,12 @@ export default {
 }
 
 .time-line {
-  top: 100px;
+  top: 70px;
   height: 30px;
-  width: 1px;
+  width: 2px;
   background: brown;
   position: relative;
-  transform: scale(5.58);
+  transform: scaleY(7.58);
 }
 
 
