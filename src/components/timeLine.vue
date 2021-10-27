@@ -63,12 +63,12 @@ export default {
 }
 
 .time-line {
-  top: 70px;
+  top: 84px;
   height: 30px;
   width: 2px;
   background: brown;
   position: relative;
-  transform: scaleY(7.58);
+  transform: scaleY(6.6);
 }
 
 
