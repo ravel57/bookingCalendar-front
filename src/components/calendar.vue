@@ -1,214 +1,127 @@
 <template>
   <div id="calendar">
-    <div class="tab">
-      <!--      {{ console.log(this.bron) }}-->
-      <h3>{{ thisDay(bron[0].date) }}</h3>
-      <table style="width: inherit;">
-        <time-line/>
-        <tr v-for="(t, i) in bron[0].cabinets" :key="i">
-          <td class="cabinet">{{ cabinets[t.cabinetId] }}</td>
-          <td
-              v-for="(g, j) in t.reserved"
-              :key="j"
-          >
-            <div v-if="getLength(g)">
-              <div
-                  class="rectangle"
-                  :style="{width: getLength(g), left: getLeft(g), background: g.color}"
-              ><p>{{ g.name }}</p></div>
-            </div>
-          </td>
-        </tr>
-      </table>
-    </div>
-    <div
-        class="tab"
-        v-for="(ttt, ti) in bron.slice().slice(1)"
-        :key="ti"
-    >
-      <h3>{{ thisDay(ttt.date) }}</h3>
-      <table style="width: inherit;">
-        <hours/>
-        <tr
-            v-for="(t, i) in ttt.cabinets"
-            :key="i"
-        >
-          <td class="cabinet">{{ cabinets[t.cabinetId] }}</td>
-          <td
-              v-for="(g, j) in t.reserved"
-              :key="j"
-          >
-            <div v-if="getLength(g)">
-              <div
-                  class="rectangle"
-                  :style="{width: getLength(g), left: getLeft(g), background: g.color}"
-              ><p>{{ g.name }}</p></div>
-            </div>
-          </td>
-        </tr>
-      </table>
-    </div>
+    <!--    <div class="tab">-->
+    <!--      <h3>{{ thisDay(bron[0].date) }}</h3>-->
+    <!--      <table style="width: inherit;">-->
+    <!--        <time-line/>-->
+    <!--        <tr v-for="(t, i) in bron[0].cabinets" :key="i">-->
+    <!--          <td class="cabinet">{{ cabinets[t.cabinetId] }}</td>-->
+    <!--          <td-->
+    <!--              v-for="(g, j) in t.reserved"-->
+    <!--              :key="j"-->
+    <!--          >-->
+    <!--            <div v-if="getLength(g)">-->
+    <!--              <div-->
+    <!--                  class="rectangle"-->
+    <!--                  :style="{width: getLength(g), left: getLeft(g), background: g.color}"-->
+    <!--              ><p>{{ g.name }}</p></div>-->
+    <!--            </div>-->
+    <!--          </td>-->
+    <!--        </tr>-->
+    <!--      </table>-->
+    <!--    </div>-->
+    <!--    <div-->
+    <!--        class="tab"-->
+    <!--        v-for="(ttt, ti) in bron.slice().slice(1)"-->
+    <!--        :key="ti"-->
+    <!--    >-->
+    <!--      <h3>{{ thisDay(ttt.date) }}</h3>-->
+    <!--      <table style="width: inherit;">-->
+    <!--        <hours/>-->
+    <!--        <tr-->
+    <!--            v-for="(t, i) in ttt.cabinets"-->
+    <!--            :key="i"-->
+    <!--        >-->
+    <!--          <td class="cabinet">{{ cabinets[t.cabinetId] }}</td>-->
+    <!--          <td-->
+    <!--              v-for="(g, j) in t.reserved"-->
+    <!--              :key="j"-->
+    <!--          >-->
+    <!--            <div v-if="getLength(g)">-->
+    <!--              <div-->
+    <!--                  class="rectangle"-->
+    <!--                  :style="{width: getLength(g), left: getLeft(g), background: g.color}"-->
+    <!--              ><p>{{ g.name }}</p></div>-->
+    <!--            </div>-->
+    <!--          </td>-->
+    <!--        </tr>-->
+    <!--      </table>-->
+    <!--    </div>-->
   </div>
 </template>
 
 <script>
-import timeLine from "./timeLine";
-import hours from "./hours";
+const groupBy = key => array =>
+    array.reduce((objectsByKeyValue, obj) => {
+      const value = obj[key];
+      objectsByKeyValue[value] = (objectsByKeyValue[value] || []).concat(obj);
+      return objectsByKeyValue;
+    }, {});
+// import axios from "axios";
+// import timeLine from "./timeLine";
+// import hours from "./hours";
 
 export default {
   name: 'calendar',
 
   components: {
-    timeLine,
-    hours,
+    // timeLine,
+    // hours,
   },
 
   data() {
     return {
       bron: [{
-        date: new Date("10.27.2021"),
-        cabinets: [
-          {
-            cabinetId: 0,
-            reserved: [
-              {
-                start: new Date("1970-01-01 " + "11:00"),
-                duration: 60,
-                name: '11-60 ',
-                color: 'rgb(168 0 215 / 72%)'
-              },
-              {
-                start: new Date("1970-01-01 " + "12:00"),
-                duration: 60,
-                name: '12-60 ',
-                color: 'rgb(0 46 215 / 72%)'
-              }, {
-                start: new Date("1970-01-01 " + "8:00"),
-                duration: 120,
-                name: '8-120',
-                color: 'rgb(70 100 227 / 72%)'
-              }
-            ],
-          }, {
-            cabinetId: 1,
-            reserved: [{
-              start: new Date("1970-01-01 " + "13:00"),
-              duration: 60,
-              name: '13-60',
-              color: 'rgb(177 0 55 / 71%)'
-            }]
-          }, {
-            cabinetId: 2,
-            reserved: [{
-              start: new Date("1970-01-01 " + "14:00"),
-              duration: 60,
-              name: '14-60',
-              color: 'rgb(62 218 64 / 71%)'
-            }]
-          },
-        ]
+        "id": 1,
+        "userId": 1,
+        "cabinetId": 1,
+        "startTime": 1635355114000,
+        "duration": 50,
+        "title": "---",
+        "color": "240 147 23"
       }, {
-        date: new Date("10.28.2021"),
-        cabinets: [
-          {
-            cabinetId: 0,
-            reserved: [
-              {
-                start: new Date("1970-01-01 " + "9:00"),
-                duration: 45,
-                name: '9-45 ',
-                color: 'rgb(168 0 215 / 72%)'
-              },
-              {
-                start: new Date("1970-01-01 " + "8:30"),
-                duration: 30,
-                name: '8-30 ',
-                color: 'rgb(0 46 215 / 72%)'
-              }, {
-                start: new Date("1970-01-01 " + "19:00"),
-                duration: 60,
-                name: '19-60',
-                color: 'rgb(70 100 227 / 72%)'
-              }
-            ],
-          }, {
-            cabinetId: 1,
-            reserved: [{
-              start: new Date("1970-01-01 " + "11:15"),
-              duration: 90,
-              name: '11-90',
-              color: 'rgb(177 0 55 / 71%)'
-            }]
-          }, {
-            cabinetId: 2,
-            reserved: [{
-              start: new Date("1970-01-01 " + "14:00"),
-              duration: 60,
-              name: '14-60',
-              color: 'rgb(62 218 64 / 71%)'
-            }]
-          },
-        ]
-      }, {
-        date: new Date("10.29.2021"),
-        cabinets: [
-          {
-            cabinetId: 0,
-            reserved: [
-              {
-                start: new Date("1970-01-01 " + "12:00"),
-                duration: 60,
-                name: '12-60 ',
-                color: 'rgb(168 0 215 / 72%)'
-              },
-              {
-                start: new Date("1970-01-01 " + "9:00"),
-                duration: 45,
-                name: '9-45 ',
-                color: 'rgb(0 46 215 / 72%)'
-              }, {
-                start: new Date("1970-01-01 " + "14:00"),
-                duration: 90,
-                name: '14-90',
-                color: 'rgb(70 100 227 / 72%)'
-              }
-            ],
-          }, {
-            cabinetId: 1,
-            reserved: [{
-              start: new Date("1970-01-01 " + "12:00"),
-              duration: 120,
-              name: '12-120',
-              color: 'rgb(177 0 55 / 71%)'
-            }]
-          }, {
-            cabinetId: 2,
-            reserved: [{
-              start: new Date("1970-01-01 " + "8:00"),
-              duration: 720,
-              name: '17-60',
-              color: 'rgb(62 218 64 / 71%)'
-            }]
-          },
-        ]
+        "id": 2,
+        "userId": 1,
+        "cabinetId": 1,
+        "startTime": 1635519719000,
+        "duration": 60,
+        "title": "+++",
+        "color": "150 16 90"
       }],
-
       cabinets: ["101", "202", "404"],
     }
   },
 
 
   mounted: function () {
-    this.bron.forEach(day => {
-      day.cabinets.forEach(cabinet => {
-        let ta = cabinet.reserved
-        cabinet.reserved = new Array(12)
-        ta.forEach(tael => cabinet.reserved[tael.start.getHours() - 8] = tael)
-      })
+    console.log(this.bron)
+    // axios.get('/API/v1/reservations')
+    //     .then(response => console.log(response.data))
+
+    //this.bron.sort((a, b) => new Date(a.startTime).getTime() - new Date(b.startTime).getTime())
+    this.bron.forEach(elem => {
+      let t = new Date(elem.startTime)
+      elem.day = t.getDay() + '.' + t.getMonth()
+      console.log(t)
     })
+    let temp = groupBy('day')
+    console.log(temp)
+
+    // console.log(this.bron)
+
+    // this.bron.forEach(day => {
+    //   day.cabinets.forEach(cabinet => {
+    //     let reservedHours = cabinet.reserved
+    //     cabinet.reserved = new Array(12)
+    //     reservedHours.forEach(reservedHour => {
+    //       cabinet.reserved[reservedHour.start.getHours() - 8] = reservedHour
+    //     })
+    //   })
+    // })
   },
 
   methods: {
+
     getLength(val) {
       if (val) {
         //let t = new Date(val.end - val.start - 10800000)
@@ -289,6 +202,7 @@ TD, TH, TD {
   position: relative;
   overflow: hidden;
   text-shadow: 1px 1px 2px black;
+  box-shadow: 1px 0.5px 2px #0005;
 }
 
 .rectangle p {
