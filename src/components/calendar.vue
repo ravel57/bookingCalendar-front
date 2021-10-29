@@ -1,129 +1,105 @@
 <template>
   <div id="calendar">
-    <!--    <div class="tab">-->
-    <!--      <h3>{{ thisDay(bron[0].date) }}</h3>-->
-    <!--      <table style="width: inherit;">-->
-    <!--        <time-line/>-->
-    <!--        <tr v-for="(t, i) in bron[0].cabinets" :key="i">-->
-    <!--          <td class="cabinet">{{ cabinets[t.cabinetId] }}</td>-->
-    <!--          <td-->
-    <!--              v-for="(g, j) in t.reserved"-->
-    <!--              :key="j"-->
-    <!--          >-->
-    <!--            <div v-if="getLength(g)">-->
-    <!--              <div-->
-    <!--                  class="rectangle"-->
-    <!--                  :style="{width: getLength(g), left: getLeft(g), background: g.color}"-->
-    <!--              ><p>{{ g.name }}</p></div>-->
-    <!--            </div>-->
-    <!--          </td>-->
-    <!--        </tr>-->
-    <!--      </table>-->
-    <!--    </div>-->
-    <!--    <div-->
-    <!--        class="tab"-->
-    <!--        v-for="(ttt, ti) in bron.slice().slice(1)"-->
-    <!--        :key="ti"-->
-    <!--    >-->
-    <!--      <h3>{{ thisDay(ttt.date) }}</h3>-->
-    <!--      <table style="width: inherit;">-->
-    <!--        <hours/>-->
-    <!--        <tr-->
-    <!--            v-for="(t, i) in ttt.cabinets"-->
-    <!--            :key="i"-->
-    <!--        >-->
-    <!--          <td class="cabinet">{{ cabinets[t.cabinetId] }}</td>-->
-    <!--          <td-->
-    <!--              v-for="(g, j) in t.reserved"-->
-    <!--              :key="j"-->
-    <!--          >-->
-    <!--            <div v-if="getLength(g)">-->
-    <!--              <div-->
-    <!--                  class="rectangle"-->
-    <!--                  :style="{width: getLength(g), left: getLeft(g), background: g.color}"-->
-    <!--              ><p>{{ g.name }}</p></div>-->
-    <!--            </div>-->
-    <!--          </td>-->
-    <!--        </tr>-->
-    <!--      </table>-->
-    <!--    </div>-->
+    <div class="tab">
+      <h3>{{ thisDay(bron[0].date) }}</h3>
+      <table style="width: inherit;">
+        <time-line/>
+        <tr v-for="(t, i) in bron[0].cabinets" :key="i">
+          <td class="cabinet">{{ cabinets[t.cabinetId] }}</td>
+          <td
+              v-for="(g, j) in t.reserved"
+              :key="j"
+          >
+            <div v-if="getLength(g)">
+              <div
+                  class="rectangle"
+                  :style="{width: getLength(g), left: getLeft(g), background: g.color}"
+              ><p>{{ g.name }}</p></div>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div
+        class="tab"
+        v-for="(ttt, ti) in bron.slice().slice(1)"
+        :key="ti"
+    >
+      <h3>{{ thisDay(ttt.date) }}</h3>
+      <table style="width: inherit;">
+        <hours/>
+        <tr
+            v-for="(t, i) in ttt.cabinets"
+            :key="i"
+        >
+          <td class="cabinet">{{ cabinets[t.cabinetId] }}</td>
+          <td
+              v-for="(g, j) in t.reserved"
+              :key="j"
+          >
+            <div v-if="getLength(g)">
+              <div
+                  class="rectangle"
+                  :style="{width: getLength(g), left: getLeft(g), background: g.color}"
+              ><p>{{ g.name }}</p></div>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
   </div>
 </template>
 
 <script>
-const groupBy = key => array =>
-    array.reduce((objectsByKeyValue, obj) => {
-      const value = obj[key];
-      objectsByKeyValue[value] = (objectsByKeyValue[value] || []).concat(obj);
-      return objectsByKeyValue;
-    }, {});
-// import axios from "axios";
-// import timeLine from "./timeLine";
-// import hours from "./hours";
+
+import axios from "axios";
+import timeLine from "./timeLine";
+import hours from "./hours";
 
 export default {
   name: 'calendar',
 
+
   components: {
-    // timeLine,
-    // hours,
+    timeLine,
+    hours,
   },
+
 
   data() {
     return {
-      bron: [{
-        "id": 1,
-        "userId": 1,
-        "cabinetId": 1,
-        "startTime": 1635355114000,
-        "duration": 50,
-        "title": "---",
-        "color": "240 147 23"
-      }, {
-        "id": 2,
-        "userId": 1,
-        "cabinetId": 1,
-        "startTime": 1635519719000,
-        "duration": 60,
-        "title": "+++",
-        "color": "150 16 90"
-      }],
+      bron: [],
       cabinets: ["101", "202", "404"],
     }
   },
 
 
-  mounted: function () {
-    console.log(this.bron)
-    // axios.get('/API/v1/reservations')
-    //     .then(response => console.log(response.data))
+  mounted: async function () {
+    await axios.get('/API/v1/reservations')
+        .then(response => {
+          this.bron = response.data
+          // console.log(response.data)
 
-    //this.bron.sort((a, b) => new Date(a.startTime).getTime() - new Date(b.startTime).getTime())
-    this.bron.forEach(elem => {
-      let t = new Date(elem.startTime)
-      elem.day = t.getDay() + '.' + t.getMonth()
-      console.log(t)
-    })
-    let temp = groupBy('day')
-    console.log(temp)
-
-    // console.log(this.bron)
-
-    // this.bron.forEach(day => {
-    //   day.cabinets.forEach(cabinet => {
-    //     let reservedHours = cabinet.reserved
-    //     cabinet.reserved = new Array(12)
-    //     reservedHours.forEach(reservedHour => {
-    //       cabinet.reserved[reservedHour.start.getHours() - 8] = reservedHour
-    //     })
-    //   })
-    // })
+          this.bron.forEach(day => {
+            day.date = new Date(day.date)
+            day.cabinets.forEach(cabinet => {
+              cabinet.reserved = new Array(12)
+              cabinet.reserved.forEach(reservedHour => {
+                reservedHour = new Date(reservedHour)
+                console.log(reservedHour)
+                cabinet.reserved[reservedHour.startTime.getHours() - 8] = reservedHour
+              })
+            })
+          })
+          // console.log(this.bron)
+        })
   },
 
-  methods: {
 
+  methods: {
     getLength(val) {
       if (val) {
+        console.log(val.duration)
         //let t = new Date(val.end - val.start - 10800000)
         //return Math.trunc(((t.getHours() * 60) + t.getMinutes()) / 60 * 100) + t.getHours() + '%'
         return val.duration / 60 * 100 + Math.trunc(val.duration / 60 - 1) + '%'
@@ -143,6 +119,7 @@ export default {
       // return date
     }
   },
+
 
   computed: {}
 
