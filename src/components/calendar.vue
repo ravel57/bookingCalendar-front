@@ -17,7 +17,10 @@
               <div
                   class="rectangle"
                   :style="{width: getLength(g), left: getLeft(g), background: g.color}"
-              ><p>{{ g.title }}</p></div>
+              >
+                <p>{{ g.title }}</p>
+                <p :style="{top: 15}">{{ g.user }}</p>
+              </div>
             </div>
           </td>
         </tr>
@@ -44,7 +47,10 @@
               <div
                   class="rectangle"
                   :style="{width: getLength(g), left: getLeft(g), background: g.color}"
-              ><p>{{ g.title }}</p></div>
+              >
+                <p>{{ g.title }}</p>
+                <p :style="{top: 15}">{{ g.user }}</p>
+              </div>
             </div>
           </td>
         </tr>
@@ -88,7 +94,7 @@ export default {
       day.date = new Date(day.date)
       day.cabinets.forEach(cabinet => {
         let cabinetsReserved = cabinet.reserved
-        cabinet.reserved = new Array(12)
+        cabinet.reserved = new Array(10)
         cabinetsReserved.forEach(reservation => {
           reservation.startTime = new Date(reservation.startTime - 10800000)
           reservation.color = 'rgb(' + reservation.color + ' / 72%)'
@@ -193,6 +199,7 @@ TD, TH, TD {
   margin-left: 5px;
   color: rgb(247 243 241);
   text-shadow: 1px 1px 2px black;
+  font-size: 13px;
 }
 
 </style>
