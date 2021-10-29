@@ -71,5 +71,16 @@ export default {
   transform: scaleY(6.6);
 }
 
+.time-line2 {
+  top: 55px;
+  transform: scaleY(4.7);
+}
+
+.time-line1 {
+  top: 28px;
+  transform: scaleY(2.9);
+}
+/*top = 28x - 0,3333*/
+/*scaleY = 1,85x + 8,4333 */
 
 </style>

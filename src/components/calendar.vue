@@ -4,7 +4,10 @@
       <h3>{{ thisDay(bron[0].date) }}</h3>
       <table style="width: inherit;">
         <time-line/>
-        <tr v-for="(t, i) in bron[0].cabinets" :key="i">
+        <tr
+            v-for="(t, i) in bron[0].cabinets"
+            :key="i"
+        >
           <td class="cabinet">{{ cabinets[t.cabinetId] }}</td>
           <td
               v-for="(g, j) in t.reserved"
@@ -14,7 +17,7 @@
               <div
                   class="rectangle"
                   :style="{width: getLength(g), left: getLeft(g), background: g.color}"
-              ><p>{{ g.name }}</p></div>
+              ><p>{{ g.title }}</p></div>
             </div>
           </td>
         </tr>
@@ -41,7 +44,7 @@
               <div
                   class="rectangle"
                   :style="{width: getLength(g), left: getLeft(g), background: g.color}"
-              ><p>{{ g.name }}</p></div>
+              ><p>{{ g.title }}</p></div>
             </div>
           </td>
         </tr>
@@ -69,7 +72,8 @@ export default {
   data() {
     return {
       bron: [],
-      cabinets: ["101", "202", "404"],
+      cabinets: ["101", "202"],
+      timeLine: {Transform: 1, top: 1}
     }
   },
 
@@ -78,21 +82,20 @@ export default {
     await axios.get('/API/v1/reservations')
         .then(response => {
           this.bron = response.data
-          // console.log(response.data)
-
-          this.bron.forEach(day => {
-            day.date = new Date(day.date)
-            day.cabinets.forEach(cabinet => {
-              cabinet.reserved = new Array(12)
-              cabinet.reserved.forEach(reservedHour => {
-                reservedHour = new Date(reservedHour)
-                console.log(reservedHour)
-                cabinet.reserved[reservedHour.startTime.getHours() - 8] = reservedHour
-              })
-            })
-          })
-          // console.log(this.bron)
         })
+
+    this.bron.forEach(day => {
+      day.date = new Date(day.date)
+      day.cabinets.forEach(cabinet => {
+        let cabinetsReserved = cabinet.reserved
+        cabinet.reserved = new Array(12)
+        cabinetsReserved.forEach(reservation => {
+          reservation.startTime = new Date(reservation.startTime - 10800000)
+          reservation.color = 'rgb(' + reservation.color + ' / 72%)'
+          cabinet.reserved[reservation.startTime.getHours() - 8] = reservation
+        })
+      })
+    })
   },
 
 
@@ -108,7 +111,7 @@ export default {
 
     getLeft(val) {
       if (val) {
-        return val.start.getMinutes() / 60 * 100 + '%'
+        return val.startTime.getMinutes() / 60 * 100 + '%'
         // return Math.trunc(val.duration / 60) / 60 * 100 + '%'
       }
     },
@@ -153,6 +156,8 @@ export default {
 
 TABLE {
   border-collapse: collapse;
+  width: inherit;
+  height: fit-content;
 }
 
 TD, TH, TD {
@@ -163,7 +168,7 @@ TD, TH, TD {
 .cabinet {
   margin: auto;
   min-width: 75px;
-  height: 45px;
+  height: 55px;
   text-align: center;
   padding: 5px 0;
   font-size: 20px;
@@ -185,6 +190,7 @@ TD, TH, TD {
 .rectangle p {
   position: absolute;
   margin: 1px;
+  margin-left: 5px;
   color: rgb(247 243 241);
   text-shadow: 1px 1px 2px black;
 }
