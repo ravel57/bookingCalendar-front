@@ -19,7 +19,7 @@
                   :style="{width: getLength(g), left: getLeft(g), background: g.color}"
               >
                 <p>{{ g.title }}</p>
-                <p :style="{top: 15}">{{ g.user }}</p>
+                <p :style="{top: 15}">{{ g.clientName }}</p>
               </div>
             </div>
           </td>
@@ -49,7 +49,7 @@
                   :style="{width: getLength(g), left: getLeft(g), background: g.color}"
               >
                 <p>{{ g.title }}</p>
-                <p :style="{top: 15}">{{ g.user }}</p>
+                <p :style="{top: 15}">{{ g.clientName }}</p>
               </div>
             </div>
           </td>
@@ -78,7 +78,7 @@ export default {
   data() {
     return {
       bron: [],
-      cabinets: ["101", "202"],
+      cabinets: ["", "101", "202"],
       timeLine: {Transform: 1, top: 1}
     }
   },
@@ -94,7 +94,7 @@ export default {
       day.date = new Date(day.date)
       day.cabinets.forEach(cabinet => {
         let cabinetsReserved = cabinet.reserved
-        cabinet.reserved = new Array(10)
+        cabinet.reserved = new Array(12)
         cabinetsReserved.forEach(reservation => {
           reservation.startTime = new Date(reservation.startTime - 10800000)
           reservation.color = 'rgb(' + reservation.color + ' / 72%)'
@@ -108,7 +108,6 @@ export default {
   methods: {
     getLength(val) {
       if (val) {
-        console.log(val.duration)
         //let t = new Date(val.end - val.start - 10800000)
         //return Math.trunc(((t.getHours() * 60) + t.getMinutes()) / 60 * 100) + t.getHours() + '%'
         return val.duration / 60 * 100 + Math.trunc(val.duration / 60 - 1) + '%'
@@ -123,7 +122,7 @@ export default {
     },
 
     thisDay(date) {
-      let options = {month: 'long', day: 'numeric', year: 'numeric'}
+      let options = {month: 'long', day: 'numeric', year: 'numeric', weekday: 'narrow'}
       return date.toLocaleDateString("ru-RU", options)
       // return date
     }
@@ -147,17 +146,18 @@ export default {
 .tab {
   height: 100%;
   width: 100%;
-  /*padding-bottom: 30px;*/
   display: flex;
   margin-bottom: 30px;
+  flex-direction: column;
 }
 
 .tab h3 {
   font-size: 20px;
   margin: 5px;
-  transform: rotate(180deg);
-  writing-mode: tb;
-  text-align: center;
+  /* transform: rotate(180deg); */
+  -ms-writing-mode: tb;
+  /* writing-mode: tb; */
+  /* text-align: center; */
 }
 
 TABLE {
