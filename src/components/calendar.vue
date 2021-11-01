@@ -19,7 +19,7 @@
                   :style="{width: getLength(g), left: getLeft(g), background: g.color}"
               >
                 <p>{{ g.title }}</p>
-                <p :style="{top: 15}">{{ g.clientName }}</p>
+<!--                <p :style="{top: 15}">{{ g.clientName }}</p>-->
               </div>
             </div>
           </td>
@@ -49,7 +49,7 @@
                   :style="{width: getLength(g), left: getLeft(g), background: g.color}"
               >
                 <p>{{ g.title }}</p>
-                <p :style="{top: 15}">{{ g.clientName }}</p>
+<!--                <p :style="{top: 15}">{{ g.clientName }}</p>-->
               </div>
             </div>
           </td>
@@ -78,7 +78,7 @@ export default {
   data() {
     return {
       bron: [],
-      cabinets: ["", "101", "202"],
+      cabinets: ["", "501", "506", "2 аккаунт"],
       timeLine: {Transform: 1, top: 1}
     }
   },

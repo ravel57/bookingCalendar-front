@@ -27,7 +27,9 @@ export default {
 .hour {
   margin: auto;
   min-width: 75px;
-  text-align: center;
+  text-align: left;
   padding: 5px 0;
+  left: -15px;
+  position: relative;
 }
 </style>

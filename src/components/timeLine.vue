@@ -1,6 +1,6 @@
 <template>
   <tr>
-    <td v-if="dataNow.getHours() > 8 & dataNow.getHours() < 20">
+    <td v-if="dataNow.getHours() > 8 & dataNow.getHours() < 18">
       <div class="time-line" :style="{left: getDateNow}"/>
     </td>
     <td v-else/>
@@ -58,8 +58,10 @@ export default {
 .hour {
   margin: auto;
   min-width: 75px;
-  text-align: center;
+  text-align: left;
   padding: 5px 0;
+  left: -15px;
+  position: relative;
 }
 
 .time-line {
